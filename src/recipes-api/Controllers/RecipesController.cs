@@ -57,7 +57,7 @@ public class RecipesController : ControllerBase
         var exist = _service.RecipeExists(name);
         if (!exist)
         {
-            return NotFound();
+            return BadRequest("Recipe not found!");
         } else {
             _service.UpdateRecipe(recipe);
             return NoContent();
@@ -68,6 +68,13 @@ public class RecipesController : ControllerBase
     [HttpDelete("{name}")]
     public IActionResult Delete(string name)
     {
-        throw new NotImplementedException();
+        var exist = _service.RecipeExists(name);
+        if (!exist)
+        {
+            return NotFound();
+        } else {
+            _service.DeleteRecipe(name);
+            return NoContent();
+        }
     }    
 }
