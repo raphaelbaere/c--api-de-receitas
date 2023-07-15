@@ -58,10 +58,15 @@ public class RecipesController : ControllerBase
         if (!exist)
         {
             return BadRequest("Recipe not found!");
-        } else {
+        }
+
+        var isRecipeName = _service.RecipeExists(recipe.Name);
+        if (!isRecipeName)
+        {
+            return BadRequest("Recipe not found!");
+        }
             _service.UpdateRecipe(recipe);
             return NoContent();
-        }
     }
 
     // 5 - Sua aplicação deve ter o endpoint DEL /recipe
