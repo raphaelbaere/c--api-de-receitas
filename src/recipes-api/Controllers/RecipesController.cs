@@ -46,7 +46,7 @@ public class RecipesController : ControllerBase
     public IActionResult Create([FromBody]Recipe recipe)
     {
         _service.AddRecipe(recipe);
-        return Ok(recipe);
+        return Created("", recipe);
 
     }
 
@@ -54,7 +54,14 @@ public class RecipesController : ControllerBase
     [HttpPut("{name}")]
     public IActionResult Update(string name, [FromBody]Recipe recipe)
     {
-        throw new NotImplementedException();
+        var exist = _service.RecipeExists(name);
+        if (!exist)
+        {
+            return NotFound();
+        } else {
+            _service.UpdateRecipe(recipe);
+            return NoContent();
+        }
     }
 
     // 5 - Sua aplicação deve ter o endpoint DEL /recipe
