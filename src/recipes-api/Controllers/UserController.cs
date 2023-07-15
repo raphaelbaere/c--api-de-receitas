@@ -24,6 +24,11 @@ public class UserController : ControllerBase
     [HttpGet("{email}", Name = "GetUser")]
     public IActionResult Get(string email)
     {                
+        var exist = _service.UserExists(email);
+        if (!exist)
+        {
+            return NotFound();
+        }
         return Ok(_service.GetUser(email));
     }
 
